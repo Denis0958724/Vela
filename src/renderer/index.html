@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="uk" data-theme="indigo">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src http://127.0.0.1:*; connect-src 'none'" />
+  <title>Vela</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3.5v9M3.5 8h9"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 16 16"><path d="M2 12.5v-9h4l1.2 1.6H14v7.4z"/></symbol>
+  <symbol id="i-folder-plus" viewBox="0 0 16 16"><path d="M2 12.5v-9h4l1.2 1.6H14v3.2"/><path d="M12 9.5v4M10 11.5h4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 16 16"><path d="M13.3 8a5.3 5.3 0 1 1-1.6-3.8"/><path d="M13.4 2.4V5.2h-2.8"/></symbol>
+  <symbol id="i-external" viewBox="0 0 16 16"><path d="M9 3.5h3.5V7"/><path d="M12.5 3.5 7 9"/><path d="M12 10v2.5H3.5v-9H6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.1"/><path d="M8 1.7v1.6M8 12.7v1.6M3.6 3.6l1.2 1.2M11.2 11.2l1.2 1.2M1.7 8h1.6M12.7 8h1.6M3.6 12.4l1.2-1.2M11.2 4.8l1.2-1.2"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 16 16"><path d="M6 1.8v3.4M10 1.8v3.4"/><path d="M4.2 5.2h7.6v2.9A3.8 3.8 0 0 1 8 11.9a3.8 3.8 0 0 1-3.8-3.8z"/><path d="M8 11.9v2.3"/></symbol>
+  <symbol id="i-save" viewBox="0 0 16 16"><path d="M3 3h7.5L13 5.5V13H3z"/><path d="M5.5 3v3.5h5V3M5.5 13V9.5h5V13"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 16 16"><path d="M3.5 4.5h9M6.5 4.5V3h3v1.5M5 4.5l.6 8.5h4.8l.6-8.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 16 16"><path d="M3 3h4.2A1.8 1.8 0 0 1 9 4.8V13a1.5 1.5 0 0 0-1.5-1.3H3z"/><path d="M13 3H8.8A1.8 1.8 0 0 0 7 4.8V13a1.5 1.5 0 0 1 1.5-1.3H13z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4"/><path d="M10 10l3 3"/></symbol>
+  <symbol id="i-panel-r" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.2"/><path d="M10 3v10"/></symbol>
+  <symbol id="i-panel-l" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.2"/><path d="M6 3v10"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 16 16"><rect x="4.5" y="4.5" width="7" height="7" rx="1.2"/></symbol>
+  <symbol id="i-send" viewBox="0 0 16 16"><path d="M2.6 8h8.8"/><path d="M8 4.6 11.4 8 8 11.4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 16 16"><path d="M6 3.5 10.5 8 6 12.5"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 16 16"><path d="M10.5 5 6 9.5a1.8 1.8 0 0 0 2.5 2.5l4.5-4.5a3.2 3.2 0 0 0-4.5-4.5L3.6 8.4a4.6 4.6 0 0 0 6.4 6.4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 16 16"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.2"/><path d="M10.5 5.5v-3h-8v8h3"/></symbol>
+  <symbol id="i-thumb-up" viewBox="0 0 16 16"><path d="M5.4 7.3 8 2.6a1.3 1.3 0 0 1 2.3 1.2L9.6 6.5h2.8a1.3 1.3 0 0 1 1.2 1.7l-1.6 4.6a1.4 1.4 0 0 1-1.3.9H5.4"/><path d="M2.3 7.3h3.1v6.4H2.3z"/></symbol>
+  <symbol id="i-thumb-down" viewBox="0 0 16 16"><path d="M10.6 8.7 8 13.4a1.3 1.3 0 0 1-2.3-1.2l.7-2.7H3.6a1.3 1.3 0 0 1-1.2-1.7l1.6-4.6a1.4 1.4 0 0 1 1.3-.9h5.3"/><path d="M13.7 8.7h-3.1V2.3h3.1z"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 11.5h11"/><circle cx="6" cy="4.5" r="1.7"/><circle cx="10.5" cy="11.5" r="1.7"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 16 16"><path d="M8 3v10M4.2 9.2 8 13l3.8-3.8"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 16 16"><path d="M8 2.3 14 13H2z"/><path d="M8 6v3.2M8 11.3v.1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="m3.2 8.4 3 3 6.6-6.8"/></symbol>
+  <symbol id="i-file" viewBox="0 0 16 16"><path d="M4 2.3h5.2L12.5 5.6v8.1H4z"/><path d="M9 2.5v3.3h3.3"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 16 16"><path d="m3 11.3-.6 2.3 2.3-.6L12.8 5l-1.8-1.8z"/><path d="m9.8 4.4 1.8 1.8"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 16 16"><path d="M8 2.2 9.4 6l3.8 1.4L9.4 8.8 8 12.6 6.6 8.8 2.8 7.4 6.6 6z"/><path d="M12.6 2.2v2.2M11.5 3.3h2.2"/></symbol>
+  <symbol id="i-logo" viewBox="0 0 64 64">
+    <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 12 6 32l18 20" opacity=".58"/>
+      <path d="M32 10v44" opacity="1"/>
+      <path d="m40 12 18 20-18 20" opacity=".82"/>
+    </g>
+  </symbol>
+  <symbol id="i-logo-ink" viewBox="0 0 64 64">
+    <g fill="none" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 12 6 32l18 20" stroke="#191713"/>
+      <path d="M32 10v44" stroke="#b6421e"/>
+      <path d="m40 12 18 20-18 20" stroke="#8a8071"/>
+    </g>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.6"/><path d="M8 4.7V8l2.3 1.4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8 13 3.7v4.2c0 3-2.2 5.2-5 6.2-2.8-1-5-3.2-5-6.2V3.7z"/><path d="m5.8 7.8 1.5 1.5 2.9-3"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.6"/><path d="M2.5 8h11M8 2.4c1.6 1.6 2.4 3.5 2.4 5.6S9.6 12 8 13.6C6.4 12 5.6 10.1 5.6 8S6.4 4 8 2.4z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 16 16"><rect x="2.2" y="2.8" width="11.6" height="7.8" rx="1.2"/><path d="M6 13.2h4M8 10.6v2.6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 16 16"><rect x="3.2" y="6.7" width="9.6" height="7" rx="1.2"/><path d="M5.3 6.7V5a2.7 2.7 0 0 1 5.4 0v1.7M8 9.4v1.8"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 16 16"><path d="M8.8 1.8 3.5 9h3.8l-.9 5.2L12.5 7H8.7z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 16 16"><path d="M1.8 8S4.3 3.8 8 3.8 14.2 8 14.2 8 11.7 12.2 8 12.2 1.8 8 1.8 8z"/><circle cx="8" cy="8" r="1.8"/></symbol>
+  <symbol id="i-retry" viewBox="0 0 16 16"><path d="M13 8a5 5 0 1 1-1.5-3.55"/><path d="M13 3.2v3.7H9.3"/></symbol>
+  <symbol id="i-key" viewBox="0 0 16 16"><circle cx="5.5" cy="10.5" r="3"/><path d="m7.7 8.3 5.5-5.5M10.5 5.5l1.3 1.3M12 4l1.2 1.2"/></symbol>
+  <symbol id="i-puzzle" viewBox="0 0 16 16"><path d="M6 2.5c0 1 .7 1.7 1.7 1.7S9.4 3.5 9.4 2.5H12v3.3c-1 0-1.7.7-1.7 1.7S11 9.2 12 9.2V13H8.8c0-1-.7-1.7-1.7-1.7S5.4 12 5.4 13H3V9.4c1 0 1.7-.7 1.7-1.7S4 6 3 6V2.5z"/></symbol>
+  <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 1.7a6.3 6.3 0 0 0-2 12.3c.3.1.4-.1.4-.3v-1.1c-1.7.4-2.1-.8-2.1-.8-.3-.7-.7-.9-.7-.9-.6-.4 0-.4 0-.4.6 0 1 .6 1 .6.6 1 1.5.7 1.9.5.1-.4.2-.7.4-.9-1.4-.2-2.9-.7-2.9-3.1 0-.7.2-1.2.6-1.7-.1-.2-.3-.8.1-1.6 0 0 .5-.2 1.8.6a6 6 0 0 1 3.2 0c1.3-.8 1.8-.6 1.8-.6.4.8.2 1.4.1 1.6.4.5.6 1 .6 1.7 0 2.4-1.5 2.9-2.9 3.1.2.2.4.6.4 1.2v1.7c0 .2.1.4.4.3A6.3 6.3 0 0 0 8 1.7z"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 16 16"><path d="M8 1.8a6.2 6.2 0 0 0 0 12.4c1 0 1.5-.7 1.5-1.4 0-.4-.2-.8-.4-1.1-.2-.3-.4-.6-.4-.9 0-.7.6-1.2 1.3-1.2h1.2c1.7 0 3-1.4 3-3.1C14.2 4 11.4 1.8 8 1.8z"/><circle cx="5.1" cy="6.1" r=".8"/><circle cx="8" cy="4.4" r=".8"/><circle cx="10.9" cy="6.1" r=".8"/><circle cx="4.8" cy="9.4" r=".8"/></symbol>
+</svg>
+
+<header class="topbar">
+  <button id="toggleLeft" class="icon-btn" title="Панель проєктів, Ctrl+B">
+    <svg class="ico"><use href="#i-panel-l"/></svg>
+  </button>
+
+  <div class="brand" title="Vela" aria-label="Vela">
+    <span class="brand-mark"><svg class="ph-logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-logo"/></svg></span>
+  </div>
+
+  <div id="projectLabel" class="project-label" title="Активний проєкт">проєкт не вибрано</div>
+
+  <div class="spacer"></div>
+
+  <div class="mode-wrap">
+    <button id="modeBtn" class="mode-btn" type="button" aria-haspopup="listbox" aria-expanded="false" title="Режим дозволів">
+      <span class="mode-key">режим</span>
+      <svg id="modeBtnIcon" class="ico"><use id="modeBtnUse" href="#i-lock"/></svg>
+      <span id="modeBtnLabel">звичайний</span>
+      <svg class="ico mode-chev"><use href="#i-chevron"/></svg>
+    </button>
+    <div id="modePop" class="mode-pop hidden" role="listbox" aria-label="Режим дозволів">
+      <button type="button" class="mode-option" data-mode="ask" role="option">
+        <svg class="ico"><use href="#i-lock"/></svg>
+        <span class="mode-copy"><b>Звичайний</b><small>Питає перед змінами й командами.</small></span>
+        <svg class="ico mode-check"><use href="#i-check"/></svg>
+      </button>
+      <button type="button" class="mode-option" data-mode="auto" role="option">
+        <svg class="ico"><use href="#i-shield"/></svg>
+        <span class="mode-copy"><b>Авто</b><small>Сам змінює файли, питає за команди.</small></span>
+        <svg class="ico mode-check"><use href="#i-check"/></svg>
+      </button>
+      <button type="button" class="mode-option" data-mode="turbo" role="option">
+        <svg class="ico"><use href="#i-bolt"/></svg>
+        <span class="mode-copy"><b>Турбо</b><small>Не питає нічого.</small></span>
+        <svg class="ico mode-check"><use href="#i-check"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <button id="settingsBtn" class="icon-btn" title="Налаштування">
+    <svg class="ico"><use href="#i-gear"/></svg>
+  </button>
+  <button id="toggleRight" class="icon-btn" title="Бічна панель, Ctrl+\">
+    <svg class="ico"><use href="#i-panel-r"/></svg>
+  </button>
+</header>
+
+<main class="layout" id="layout">
+
+  <!-- ───── left: projects & chats ───── -->
+  <aside class="rail" id="leftPanel">
+    <div id="loadWarning" class="rail-warning hidden"></div>
+
+    <div class="rail-head">
+      <span class="rail-title">Проєкти й чати</span>
+      <div class="rail-tools">
+        <button id="addBtn" class="icon-btn sm" title="Новий чат або проєкт">
+          <svg class="ico"><use href="#i-plus"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="railList" class="project-list"></div>
+
+    <div class="rail-foot">
+      <button id="chatsFolderBtn" class="rail-action" title="Тека, в якій працюють звичайні чати">
+        <svg class="ico"><use href="#i-folder"/></svg>
+        <span id="chatsFolderLabel" class="rail-folder">...</span>
+      </button>
+      <button id="railSettingsBtn" class="rail-action" title="Налаштування">
+        <svg class="ico"><use href="#i-gear"/></svg>
+        <span>Налаштування</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="splitter" id="splitLeft" title="Потягни, щоб змінити ширину"></div>
+
+  <!-- ───── center: chat ───── -->
+  <section class="chat">
+    <div id="noChat" class="no-chat hidden">
+      <div class="no-chat-mark"><svg class="ph-logo" viewBox="0 0 64 64" aria-hidden="true"><use href="#i-logo"/></svg></div>
+      <p class="no-chat-line">Ні Денис, what can we get done today?</p>
+      <button id="noChatNew" class="hidden" type="button">Новий чат</button>
+      <button id="noChatProject" class="hidden" type="button">Новий проєкт</button>
+    </div>
+
+    <div class="chat-head">
+      <div class="chat-head-copy">
+        <span id="chatTitle" class="chat-title">Чат</span>
+        <button id="chatPath" class="chat-path" title="Відкрити папку проєкту">...</button>
+      </div>
+    </div>
+
+    <div id="computerBanner" class="computer-banner hidden">
+      <svg class="ico"><use href="#i-monitor"/></svg>
+      <span>Вела користується вашим ПК</span>
+    </div>
+
+    <div id="workspaceAlert" class="workspace-alert hidden"></div>
+
+    <div id="messages" class="messages" role="log" aria-live="polite">
+      <div class="placeholder" id="placeholder">
+        <p class="ph-kicker">Vela</p>
+        <p class="ph-title">Чат</p>
+        <p class="ph-text">Напиши задачу. Агент подивиться файли й відповість.</p>
+      </div>
+    </div>
+
+    <button id="jumpBottom" class="jump hidden" title="До останнього повідомлення">
+      <svg class="ico"><use href="#i-arrow-down"/></svg>
+    </button>
+
+    <div id="approval" class="approval hidden">
+      <div class="approval-text">
+        <strong id="apTitle">Дозволити дію?</strong>
+        <code id="apDetail"></code>
+      </div>
+      <div id="apArtifact" class="approval-artifact hidden"></div>
+      <div class="approval-btns">
+        <button id="apNo" class="btn sm">Відмовити</button>
+        <button id="apYes" class="btn primary sm">Дозволити</button>
+      </div>
+    </div>
+
+    <div class="composer-shell">
+      <div id="queueBox" class="queue-box hidden"></div>
+      <div class="composer" id="composer">
+        <div id="attachBox" class="attach-box hidden"></div>
+        <textarea id="input" rows="1" placeholder="Напиши задачу"></textarea>
+        <div id="mentionPop" class="mention-pop hidden"></div>
+        <div class="composer-bar">
+          <button id="attachBtn" class="icon-btn sm" title="Додати файл, зображення або відео">
+            <svg class="ico"><use href="#i-clip"/></svg>
+          </button>
+          <button id="chatFolderBtn" class="icon-btn sm hidden" title="Додати папку для цього чату">
+            <svg class="ico"><use href="#i-folder-plus"/></svg>
+          </button>
+          <button id="modelBtn" class="model-btn" type="button" title="Модель і контекст">
+            <span id="modelBtnName">auto</span>
+            <span id="modelBtnLimit" class="model-limit">...</span>
+            <svg class="ico"><use href="#i-chevron"/></svg>
+          </button>
+          <button id="effortBtn" class="effort-btn hidden" type="button" title="Зусилля мислення">
+            <span id="effortLabel">Середнє</span>
+          </button>
+          <button id="contextBtn" class="context-btn" type="button" title="Використання контексту">
+            <svg class="ctx-ring" viewBox="0 0 32 32" aria-hidden="true">
+              <circle class="ctx-track" cx="16" cy="16" r="12.5"></circle>
+              <circle id="ctxArc" class="ctx-arc" cx="16" cy="16" r="12.5"></circle>
+            </svg>
+            <span id="contextPercent">0%</span>
+          </button>
+          <div class="spacer"></div>
+          <button id="stopBtn" class="btn danger sm hidden">
+            <svg class="ico"><use href="#i-stop"/></svg><span>Стоп</span>
+          </button>
+          <button id="sendBtn" class="btn primary sm send-btn">
+            <span id="sendLabel">Надіслати</span><svg class="ico"><use href="#i-send"/></svg>
+          </button>
+        </div>
+
+        <div id="modelPop" class="composer-pop model-pop hidden">
+          <div class="pop-head">
+            <b>Модель</b>
+            <span class="pop-head-note">сильніші вище</span>
+            <button id="probeBtn" type="button" class="icon-btn sm" title="Перевірити моделі">
+              <svg class="ico"><use href="#i-refresh"/></svg>
+            </button>
+          </div>
+          <div id="modelList" class="model-list"></div>
+          <div class="pop-foot">Ліміт береться з каталогу провайдера.</div>
+        </div>
+
+        <div id="effortPop" class="composer-pop effort-pop hidden">
+          <div class="pop-head">
+            <b>Зусилля мислення</b>
+            <span id="effortModel" class="pop-head-note">...</span>
+          </div>
+          <div class="effort-list">
+            <button type="button" class="effort-option" data-effort="low">
+              <span><b>Низьке</b><small>Швидко й економно. Для простих задач.</small></span>
+              <svg class="ico effort-check"><use href="#i-check"/></svg>
+            </button>
+            <button type="button" class="effort-option" data-effort="medium">
+              <span><b>Середнє</b><small>Збалансований варіант. Рекомендовано.</small></span>
+              <svg class="ico effort-check"><use href="#i-check"/></svg>
+            </button>
+            <button type="button" class="effort-option" data-effort="high">
+              <span><b>Високе</b><small>Більше міркування й токенів. Для складних задач.</small></span>
+              <svg class="ico effort-check"><use href="#i-check"/></svg>
+            </button>
+          </div>
+          <p class="effort-warning">Високе зусилля витрачає більше токенів і може впертися в ліміт кредитів провайдера.</p>
+        </div>
+
+        <div id="contextPop" class="composer-pop context-pop hidden">
+          <div class="pop-head">
+            <b>Контекст</b>
+            <span id="ctxModelName" class="pop-head-note">...</span>
+          </div>
+          <div class="ctx-summary">
+            <div><b id="ctxPercentBig">0%</b><span> зайнято</span></div>
+            <span id="ctxTotal" class="ctx-total">~0 / ...</span>
+          </div>
+          <div class="ctx-bar"><i id="ctxFill"></i></div>
+          <div id="ctxRows" class="ctx-rows"></div>
+          <p class="ctx-note">Оцінка за символами. Якщо ліміт перевищено, застосунок перейде на схожу модель із більшим вікном.</p>
+        </div>
+
+        <div id="dropHint" class="drop-hint hidden">Відпусти, щоб прикріпити</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="splitter" id="splitRight" title="Потягни, щоб змінити ширину"></div>
+
+  <!-- ───── right: files / editor / preview ───── -->
+  <aside class="side" id="rightPanel">
+    <div class="side-tabs">
+      <button class="tab active" data-tab="files">Файли</button>
+      <button class="tab" data-tab="editor">Редактор</button>
+      <button class="tab" data-tab="preview">Прев'ю</button>
+      <div class="spacer"></div>
+      <div class="tab-tools" id="toolsFiles">
+        <button id="quickOpenBtn" class="icon-btn sm" title="Швидкий пошук файлу, Ctrl+P">
+          <svg class="ico"><use href="#i-search"/></svg>
+        </button>
+        <button id="refreshTree" class="icon-btn sm" title="Оновити">
+          <svg class="ico"><use href="#i-refresh"/></svg>
+        </button>
+      </div>
+      <div class="tab-tools hidden" id="toolsEditor">
+        <button id="saveBtn" class="icon-btn sm" title="Зберегти, Ctrl+S">
+          <svg class="ico"><use href="#i-save"/></svg>
+        </button>
+      </div>
+      <div class="tab-tools hidden" id="toolsPreview">
+        <button id="previewReload" class="icon-btn sm" title="Перезавантажити">
+          <svg class="ico"><use href="#i-refresh"/></svg>
+        </button>
+        <button id="previewOpen" class="icon-btn sm" title="Відкрити в браузері">
+          <svg class="ico"><use href="#i-external"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pane" id="paneFiles">
+      <div id="tree" class="tree"></div>
+    </div>
+
+    <div class="pane hidden" id="paneEditor">
+      <div class="editor-head">
+        <span id="editorPath" class="editor-path">Файл не відкрито</span>
+        <span id="editorDirty" class="dirty hidden" title="Незбережені зміни"></span>
+      </div>
+      <div class="editor-body" id="editorBody">
+        <div class="gutter"><div id="gutterInner"></div></div>
+        <div class="code-scroll" id="codeScroll">
+          <pre class="code-hl" id="codeHl" aria-hidden="true"></pre>
+          <textarea id="editor" class="code-input" spellcheck="false" wrap="off"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane hidden" id="panePreview">
+      <div id="previewEmpty" class="pane-empty">
+        <p>Прев'ю роздає файли проєкту з локального сервера.</p>
+        <button id="previewStart" class="btn primary">Запустити прев'ю</button>
+      </div>
+      <!-- Frames model-authored HTML, so it stays sandboxed. Chromium warns that
+           allow-scripts + allow-same-origin can let a frame strip its own sandbox,
+           but that needs a same-origin parent: the host page is file:// and the
+           preview is http://127.0.0.1, so it cannot reach out. allow-same-origin
+           stays because without it the previewed site gets an opaque origin and
+           its own fetch(), ES modules and localStorage break. -->
+      <iframe id="previewFrame" class="hidden" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+    </div>
+  </aside>
+</main>
+
+<!-- ───── dialogs ───── -->
+
+<dialog id="projectDlg" class="dlg">
+  <form method="dialog">
+    <h3>Проєкт</h3>
+    <label>Назва
+      <input id="projectName" type="text" placeholder="Назва" autocomplete="off" />
+    </label>
+    <label>Тека
+      <div class="path-row">
+        <input id="projectPath" type="text" autocomplete="off" />
+        <button id="projectBrowse" value="browse" class="btn sm">Вибрати</button>
+      </div>
+    </label>
+    <p class="dlg-note" id="projectPathNote"></p>
+    <menu>
+      <div class="spacer"></div>
+      <button value="cancel" class="btn ghost">Скасувати</button>
+      <button id="projectCreate" value="create" class="btn primary">Створити</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="settingsDlg" class="dlg settings-dlg">
+  <form method="dialog">
+    <div class="settings-layout">
+      <nav class="settings-nav">
+        <div class="settings-nav-title">Налаштування</div>
+        <button type="button" class="settings-tab active" data-settings-tab="general">
+          <svg class="ico"><use href="#i-gear"/></svg><span>Загальні</span>
+        </button>
+        <button type="button" class="settings-tab" data-settings-tab="appearance">
+          <svg class="ico"><use href="#i-palette"/></svg><span>Вигляд</span>
+        </button>
+        <button type="button" class="settings-tab" data-settings-tab="permissions">
+          <svg class="ico"><use href="#i-shield"/></svg><span>Дозволи</span>
+        </button>
+        <button type="button" class="settings-tab" data-settings-tab="freellmapi">
+          <svg class="ico"><use href="#i-key"/></svg><span>Free LLM API</span>
+        </button>
+        <button type="button" class="settings-tab" data-settings-tab="models">
+          <svg class="ico"><use href="#i-sliders"/></svg><span>Моделі</span>
+        </button>
+        <button type="button" class="settings-tab" data-settings-tab="extensions">
+          <svg class="ico"><use href="#i-puzzle"/></svg><span>Розширення</span><span id="pluginCount" class="badge">0</span>
+        </button>
+        <div class="spacer"></div>
+        <div class="settings-nav-note">Кожна вкладка зберігає свої зміни окремо.</div>
+      </nav>
+
+      <div class="settings-content">
+        <section class="settings-panel active" data-settings-panel="general">
+          <p class="settings-kicker">Основне</p>
+          <h3>Загальні</h3>
+          <label>Тека для нових проєктів
+            <input id="setRoot" type="text" />
+          </label>
+          <p class="dlg-note">Тут створюються нові проєкти. Наявну папку можна підключити через «Відкрити папку як проєкт».</p>
+          <label>Загальні інструкції
+            <textarea id="setInstructions" rows="5" spellcheck="false"
+              placeholder="Наприклад: пиши коментарі українською, не додавай зайвих бібліотек."></textarea>
+          </label>
+          <p class="dlg-note">Діють у всіх чатах. Зміни застосовуються з наступного повідомлення.</p>
+          <label class="row">
+            <input id="setResetLayout" type="checkbox" />
+            <span>Скинути ширину панелей</span>
+          </label>
+          <div class="settings-actions">
+            <button id="setSave" type="button" class="btn primary">Зберегти</button>
+          </div>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="appearance">
+          <p class="settings-kicker">Зовнішній вигляд</p>
+          <h3>Тема</h3>
+          <p class="dlg-note">Основна тема: глибокий індиго з лавандовим акцентом. Світла й нічна залишаються на вибір.</p>
+          <div class="theme-grid">
+            <button type="button" class="theme-card active" data-theme-choice="indigo">
+              <span class="theme-swatch theme-indigo"><i></i><i></i><i></i></span>
+              <span class="theme-copy"><b>Індиго</b><small>Глибокий фіолетовий і лавандовий акцент. Базова.</small></span>
+              <svg class="ico theme-check"><use href="#i-check"/></svg>
+            </button>
+            <button type="button" class="theme-card" data-theme-choice="light">
+              <span class="theme-swatch theme-light"><i></i><i></i><i></i></span>
+              <span class="theme-copy"><b>Папір</b><small>Денне світло й глибокий бірюзовий сигнал.</small></span>
+              <svg class="ico theme-check"><use href="#i-check"/></svg>
+            </button>
+            <button type="button" class="theme-card" data-theme-choice="dark">
+              <span class="theme-swatch theme-dark"><i></i><i></i><i></i></span>
+              <span class="theme-copy"><b>Ніч</b><small>Чистий чорний, той самий крижаний сигнал.</small></span>
+              <svg class="ico theme-check"><use href="#i-check"/></svg>
+            </button>
+          </div>
+          <p class="dlg-note">Тема застосовується одразу і зберігається без перезапуску.</p>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="permissions">
+          <p class="settings-kicker">Безпека</p>
+          <h3>Дозволи</h3>
+          <p class="dlg-note">Інтернет і керування комп'ютером вимкнені за замовчуванням. У режимі «питати» кожен виклик все одно потребує окремого підтвердження, крім автономного керування ПК.</p>
+          <label class="perm-row">
+            <span class="perm-copy">
+              <b>Інтернет</b>
+              <small>open_url, web_fetch, web_search. Агент може відкривати сторінки, читати текст і шукати.</small>
+            </span>
+            <input id="permInternet" type="checkbox" />
+            <span class="perm-switch" aria-hidden="true"></span>
+          </label>
+          <label class="perm-row">
+            <span class="perm-copy">
+              <b>Керування файлами</b>
+              <small>Запис, редагування, видалення файлів і команди в папці проєкту або чату.</small>
+            </span>
+            <input id="permFiles" type="checkbox" />
+            <span class="perm-switch" aria-hidden="true"></span>
+          </label>
+          <label class="perm-row">
+            <span class="perm-copy">
+              <b>Керування комп'ютером</b>
+              <small>Миша, клавіатура, екран і програми. Працює автономно, без підтверджень. Краї екрана світяться, поки Vela діє.</small>
+            </span>
+            <input id="permComputer" type="checkbox" />
+            <span class="perm-switch" aria-hidden="true"></span>
+          </label>
+          <p class="dlg-note">run_shell входить у керування файлами. Керування комп'ютером відкриває саме графічні дії, але не робить застосунок пісочницею для ОС.</p>
+          <div class="settings-actions">
+            <button id="permSave" type="button" class="btn primary">Зберегти дозволи</button>
+          </div>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="freellmapi">
+          <p class="settings-kicker">Підключення</p>
+          <h3>Free LLM API</h3>
+          <p class="dlg-note">Один OpenAI-сумісний шлюз для всіх моделей. Ключ зберігається в системному сховищі Windows і не покидає цей ПК.</p>
+          <div class="freellm-form">
+            <label>Адреса шлюзу
+              <input id="freellmUrl" type="url" spellcheck="false" placeholder="http://127.0.0.1:31415">
+            </label>
+            <label>API-ключ
+              <input id="freellmKey" type="password" spellcheck="false" autocomplete="off" placeholder="Ключ уже збережено, залиш поле порожнім">
+            </label>
+            <div id="freellmStatus" class="freellm-status">Перевірка ще не запускалась.</div>
+            <div class="settings-actions">
+              <button id="freellmSave" type="button" class="btn primary">Зберегти й перевірити</button>
+              <button id="freellmTest" type="button" class="btn">Перевірити</button>
+            </div>
+          </div>
+          <p class="dlg-note">Моделі шлюзу з'являться у вкладці «Моделі» та в меню моделі в чаті. Окремого пункту в шапці чату немає.</p>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="models">
+          <p class="settings-kicker">Каталог</p>
+          <h3>Моделі</h3>
+          <p class="dlg-note">Модель обирається внизу чату. Тут видно ліміти й можна перевірити, які моделі відповідають.</p>
+          <div class="model-toolbar">
+            <label>Стратегія
+              <select id="routingStrategy">
+                <option value="balanced">Збалансована</option>
+                <option value="smart">Найрозумніша</option>
+                <option value="fast">Найшвидша</option>
+              </select>
+            </label>
+            <span id="usageTotal" class="usage-total"></span>
+          </div>
+          <div id="settingsModelList" class="settings-model-list"></div>
+          <div class="settings-actions">
+            <button id="settingsProbe" type="button" class="btn">Перевірити моделі</button>
+          </div>
+        </section>
+
+        <section class="settings-panel" data-settings-panel="extensions">
+          <p class="settings-kicker">Каталог</p>
+          <h3>Розширення</h3>
+          <p class="dlg-note">Підключай застосунки й додавай можливості. Інструкції змінюють стиль роботи, MCP-сервери дають доступ до зовнішніх програм.</p>
+
+          <div class="plugin-tabs">
+            <button type="button" class="plugin-tab active" data-plugin-tab="catalog">Каталог</button>
+            <button type="button" class="plugin-tab" data-plugin-tab="installed">
+              Встановлені <span id="pluginToolCount" class="badge">0</span>
+            </button>
+            <button type="button" class="plugin-tab" data-plugin-tab="instructions">
+              Інструкції <span id="pluginInstructionCount" class="badge">0</span>
+            </button>
+          </div>
+
+          <div class="plugin-view" data-plugin-view="catalog">
+            <div class="extension-toolbar">
+              <input id="extensionSearch" type="search" placeholder="Пошук застосунків і можливостей" autocomplete="off" />
+              <div id="extensionCategories" class="extension-categories"></div>
+            </div>
+            <div id="extensionCatalog" class="extension-grid"></div>
+            <p class="dlg-note">MCP-сервер можна додати вручну на вкладці «Встановлені». Ключі зберігаються локально.</p>
+          </div>
+
+          <div class="plugin-view hidden" data-plugin-view="instructions">
+            <div class="plugin-install-row">
+              <svg class="ico"><use href="#i-github"/></svg>
+              <input id="pluginGithubUrl" type="text" placeholder="https://github.com/owner/repo або owner/repo" autocomplete="off" />
+              <button id="pluginGithubInstall" type="button" class="btn sm primary">З GitHub</button>
+              <span id="pluginGithubStatus" class="plugin-install-status"></span>
+            </div>
+            <div class="skills-layout">
+              <div class="skills-list" id="skillsList"></div>
+              <div class="skills-edit">
+                <label>Назва
+                  <input id="skillName" type="text" placeholder="writing-style" autocomplete="off" />
+                </label>
+                <label>Опис
+                  <input id="skillDesc" type="text" placeholder="Для чого це розширення" autocomplete="off" />
+                </label>
+                <label class="row">
+                  <input id="skillAlways" type="checkbox" />
+                  <span>Застосовувати завжди</span>
+                </label>
+                <label>Інструкції (Markdown)
+                  <textarea id="skillBody" rows="10" spellcheck="false"></textarea>
+                </label>
+              </div>
+            </div>
+            <div class="settings-actions">
+              <button id="skillImport" type="button" class="btn">Імпорт .md</button>
+              <button id="skillReveal" type="button" class="btn ghost">Папка інструкцій</button>
+              <div class="spacer"></div>
+              <button id="skillDelete" type="button" class="btn danger">Видалити</button>
+              <button id="skillNew" type="button" class="btn">Новий</button>
+              <button id="skillSave" type="button" class="btn primary">Зберегти</button>
+            </div>
+          </div>
+
+          <div class="plugin-view hidden" data-plugin-view="installed">
+            <div class="extension-installed-head">
+              <b>Підключені розширення</b>
+              <button id="connectorNew" type="button" class="btn sm">Додати MCP вручну</button>
+            </div>
+            <div class="skills-layout">
+              <div class="skills-list" id="connectorsList"></div>
+              <div class="skills-edit">
+                <label>Назва
+                  <input id="connName" type="text" placeholder="github" autocomplete="off" />
+                </label>
+                <label>Опис
+                  <input id="connDesc" type="text" placeholder="Репозиторії, issues, pull requests" autocomplete="off" />
+                </label>
+                <label>Тип підключення
+                  <select id="connTransport" class="dlg-select">
+                    <option value="stdio">stdio, локальний процес</option>
+                    <option value="http">http, віддалений сервер</option>
+                  </select>
+                </label>
+                <div id="stdioFields">
+                  <label>Команда
+                    <input id="connCommand" type="text" placeholder="npx" autocomplete="off" />
+                  </label>
+                  <label>Аргументи, по одному на рядок
+                    <textarea id="connArgs" rows="3" spellcheck="false"></textarea>
+                  </label>
+                  <label>Змінні середовища, KEY=VALUE
+                    <textarea id="connEnv" rows="3" spellcheck="false"></textarea>
+                  </label>
+                </div>
+                <div id="httpFields" class="hidden">
+                  <label>Адреса
+                    <input id="connUrlField" type="text" placeholder="https://example.com/mcp" autocomplete="off" />
+                  </label>
+                  <label>Заголовки, KEY=VALUE
+                    <textarea id="connHeaders" rows="3" spellcheck="false"></textarea>
+                  </label>
+                </div>
+                <label class="row">
+                  <input id="connEnabled" type="checkbox" />
+                  <span>Увімкнено</span>
+                </label>
+                <label>Де діє
+                  <select id="connScope" class="dlg-select">
+                    <option value="all">у всіх проєктах</option>
+                    <option value="selected">лише в активному проєкті</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div id="connectorHealth" class="dlg-health"></div>
+            <div class="settings-actions">
+              <button id="connectorTest" type="button" class="btn">Перевірити</button>
+              <div class="spacer"></div>
+              <button id="connectorDelete" type="button" class="btn danger">Видалити</button>
+              <button id="connectorSave" type="button" class="btn primary">Зберегти</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="settings-footer">
+      <span class="settings-footer-note">Зміни зберігаються у своїй вкладці.</span>
+      <div class="spacer"></div>
+      <button id="settingsClose" type="button" class="btn ghost">Закрити</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="promptDlg" class="dlg prompt-dlg">
+  <form method="dialog">
+    <h3>Промт</h3>
+    <p class="dlg-note">Додається до системного промту. Зміни діють з наступного повідомлення, навіть якщо агент зараз працює.</p>
+    <label>Загальні
+      <textarea id="promptGlobal" rows="5" spellcheck="false" placeholder="Наприклад: відповідай українською, спочатку перевір проєкт."></textarea>
+    </label>
+    <div id="promptProjectBlock">
+      <label>Проєкт «<span id="promptProjectName">...</span>»
+        <textarea id="promptProject" rows="5" spellcheck="false" placeholder="Наприклад: не додавай бібліотек, тести в папці test."></textarea>
+      </label>
+    </div>
+    <p id="promptState" class="prompt-state"></p>
+    <menu>
+      <div class="spacer"></div>
+      <button value="cancel" class="btn ghost">Закрити</button>
+      <button id="promptSave" value="save" class="btn primary">Зберегти</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="recoverDlg" class="dlg">
+  <form method="dialog">
+    <h3>Знайдені папки</h3>
+    <p class="dlg-note" id="recoverNote">Схоже, папку переміщено. Виберіть, де вона тепер. Чати й історія залишаться.</p>
+    <div id="recoverList" class="recover-list"></div>
+    <menu>
+      <button id="recoverBrowse" value="browse" class="btn">Вибрати вручну…</button>
+      <div class="spacer"></div>
+      <button value="cancel" class="btn ghost">Закрити</button>
+    </menu>
+  </form>
+</dialog>
+
+<div id="toast" class="toast hidden"></div>
+
+<div id="quickOpen" class="quick hidden">
+  <div class="quick-box">
+    <input id="quickInput" type="text" placeholder="Назва файлу…" autocomplete="off" />
+    <div id="quickResults" class="quick-results"></div>
+  </div>
+</div>
+
+<div id="ctxMenu" class="ctx hidden"></div>
+
+<script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "name": "vela",
+  "productName": "Vela",
+  "version": "0.1.0",
+  "description": "Vela, a light desktop coding agent powered by your FreeLLMAPI gateway",
+  "main": "dist/main/main.js",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "start": "npm run build && electron .",
+    "typecheck": "tsc --noEmit",
+    "dist": "node scripts/package.mjs",
+    "smoke": "node build.mjs --smoke && node dist/smoke/smoke.js",
+    "icon": "electron scripts/make-icon.cjs",
+    "test:store": "node build.mjs --store-test && node scripts/store-test.mjs",
+    "design:audit": "node scripts/design/audit.mjs",
+    "preview": "npm run build && electron scripts/preview"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2"
+  },
+  "build": {
+    "appId": "com.vela.app",
+    "productName": "Vela",
+    "files": [
+      "dist/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "icon": "assets/icon.ico",
+    "directories": {
+      "output": "release"
+    },
+    "electronDist": "node_modules/electron/dist"
+  },
+  "author": "Denys Fonarov"
+}
